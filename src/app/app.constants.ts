@@ -5,5 +5,5 @@ export class AppConstants {
 
     public serverUrl = 'http://localhost:3000/api/';
 
-    public PersonCrudUrl = this.serverUrl + 'persons';
+    public OrderCrudUrl = this.serverUrl + 'orders';
 }

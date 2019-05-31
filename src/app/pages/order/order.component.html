@@ -1,4 +1,4 @@
-<button class="btn btn-secondary btn-sm" (click)="insertNewPerson()">Add User</button>
+<button class="btn btn-success btn-sm" (click)="insertNewOrder()" style="float:right; margin: 20px 20px; " >Add New Order</button>
 <jqxGrid #myGrid class="mt-2" [width]="getWidth()" [source]="dataAdapter" [columns]="columns" [columnsresize]="true"
   [columnsreorder]="true" [autorowheight]="false" [autoheight]="true" [pageable]="true" [sortable]="true"
   [filterable]="true" [showfilterrow]="true" [columnmenuopening]="columnmenuopening"></jqxGrid>
@@ -6,46 +6,59 @@
 <ng-template #myWindow let-modal>
   <div class="modal-header">
     <h4 class="modal-title">{{modalTitle}}</h4>
-    <button type="button" class="close" data-dismiss="modal" (click)="closeForm(personForm)">&times;</button>
+    <button type="button" class="close" data-dismiss="modal" (click)="closeForm(orderForm)">&times;</button>
   </div>
 
   <div class="modal-body">
-    <form class="form-horizontal" #personForm="ngForm">
+    <form class="form-horizontal" #orderForm="ngForm">
       <div *ngIf="!isDelete; else deleteForm">
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">#Order Number</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="orderNumber" [(ngModel)]="editOrderData['orderNumber']">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">#Order Due Date</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="orderDueDate" [(ngModel)]="editOrderData['orderDueDate']">
+            </div>
+          </div>    
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Name</label>
+          <label class="col-sm-4 col-form-label">Customer Name</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" name="Name" [(ngModel)]="editPersonData['Name']">
+            <input type="text" class="form-control" name="customerName" [(ngModel)]="editOrderData['customerName']">
           </div>
         </div>
 
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Gender</label>
+            <label class="col-sm-4 col-form-label">Customer Address</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="customerAddress" [(ngModel)]="editOrderData['customerAddress']">
+            </div>
+          </div> 
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Customer Phone</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control" name="Gender" [(ngModel)]="editPersonData['Gender']">
+            <input type="text" class="form-control" name="customerPhone" [(ngModel)]="editOrderData['customerPhone']">
           </div>
         </div>
 
         <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Age</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" name="Age" [(ngModel)]="editPersonData['Age']">
+            <label class="col-sm-4 col-form-label">Order Total</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="orderTotal" [(ngModel)]="editOrderData['orderTotal']">
+            </div>
           </div>
-        </div>
-
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label">Mobile</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" name="Mobile" [(ngModel)]="editPersonData['Mobile']">
-          </div>
-        </div>
+  
 
       </div>
     </form>
 
 
     <ng-template #deleteForm>
-      <span>Are you sure want to delete this form - <b>{{deletePersonData['Name']}}</b></span>
+      <span>Are you sure want to delete this form - <b>{{deleteOrderData['Name']}}</b></span>
     </ng-template>
 
     <div class="col-xlg-12 col-lg-12 col-md-12 col-sm-12">
@@ -55,11 +68,11 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-success btn-sm mb-2"
-      (click)="deletePersonData['_id'] ? deletePerson(deletePersonData['_id']) : onSubmit(personForm)"
-      [disabled]="personForm && !personForm.valid">Submit</button>
+      (click)="deleteOrderData['_id'] ? deleteOrder(deleteOrderData['_id']) : onSubmit(orderForm)"
+      [disabled]="orderForm && !orderForm.valid">Submit</button>
 
     <button type="button" class="btn btn-danger btn-sm mb-2"
-      (click)="deletePersonData['_id'] ? cancelDeletePerson() : closeForm(personForm)"
+      (click)="deleteOrderData['_id'] ? cancelDeleteOrder() : closeForm(orderForm)"
       data-dismiss="modal">Close</button>
   </div>
 

@@ -49,34 +49,34 @@ export class OrderService {
 
     /* RESTFULL API  */
 
-    getPersonData() {
-        return this.http.get(this.appConstants.PersonCrudUrl).pipe(
+    getOrderData() {
+        return this.http.get(this.appConstants.OrderCrudUrl).pipe(
             map(this.extractData),
-            catchError(this.handleError<any>('getPersonData')),
+            catchError(this.handleError<any>('getOrderData')),
         );
     }
 
-    insertPerson(data: Object) {
-        return this.http.post(this.appConstants.PersonCrudUrl, data).pipe(
+    insertOrder(data: Object) {
+        return this.http.post(this.appConstants.OrderCrudUrl, data).pipe(
             map(this.extractData),
             tap((response) => console.log(`add item response: ${response.status}`)),
-            catchError(this.handleError<any>('insertPerson')),
+            catchError(this.handleError<any>('insertOrder')),
         );
     }
 
-    updatePerson(data: Object): Observable<any> {
-        return this.http.put(this.appConstants.PersonCrudUrl, data).pipe(
+    updateOrder(data: Object): Observable<any> {
+        return this.http.put(this.appConstants.OrderCrudUrl, data).pipe(
             map(this.extractData),
             tap((response) => console.log(`update item response: ${response.status}`)),
-            catchError(this.handleError<any>('updatePerson')),
+            catchError(this.handleError<any>('updateOrder')),
         );
     }
 
-    deletePerson(personId: string): Observable<Response> {
-        return this.http.delete(this.appConstants.PersonCrudUrl + '?id=' + personId).pipe(
+    deleteOrder(orderId: string): Observable<Response> {
+        return this.http.delete(this.appConstants.OrderCrudUrl + '?id=' + orderId).pipe(
             map(this.extractData),
             tap((response) => console.log(`delete client response: ${response.status}`)),
-            catchError(this.handleError<any>('deletePerson')),
+            catchError(this.handleError<any>('deleteOrder')),
         );
     }
 

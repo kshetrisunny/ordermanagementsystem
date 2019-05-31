@@ -15,28 +15,28 @@ import { OrderService } from './order.service';
 export class OrderComponent implements OnInit {
   @ViewChild('myGrid') myGrid: jqxGridComponent;
   @ViewChild('myWindow') myWindow: ElementRef;
-  @ViewChild('personForm') personForm;
+  @ViewChild('orderForm') orderForm;
 
   modalRef: any;
-  modalTitle = 'Edit Person';
+  modalTitle = 'Edit Order';
   source: any;
   dataAdapter: any;
   columns: any[];
   editrow: number = -1;
   columnmenuopening: any;
-  editPersonData = {};
+  editOrderData = {};
   errorMsg: any;
   isDelete = false;
-  deletePersonData = {};
+  deleteOrderData = {};
 
   constructor(public orderService: OrderService ,private modalService: NgbModal) { }
 
   ngOnInit() {
-    this.getPersonData();
+    this.getOrderData();
   }
 
-  getPersonData() {
-    this.orderService.getPersonData().subscribe((res) => {
+  getOrderData() {
+    this.orderService.getOrderData().subscribe((res) => {
       this.initGrid(res);
     });
   }
@@ -46,10 +46,14 @@ initGrid(data: Array<JSON>) {
       datatype: 'json',
       datafields: [
         { name: '_id', type: 'string' },
-        { name: 'Name', type: 'string' },
-        { name: 'Gender', type: 'string' },
-        { name: 'Age', type: 'string' },
-        { name: 'Mobile', type: 'string' },
+        { name: 'orderNumber', type: 'string' },
+        { name: 'orderDueDate', type: 'string' },
+        { name: 'customerName', type: 'string' },
+        { name: 'customerAddress', type: 'string' },
+        { name: 'customerPhone', type: 'string' },
+        { name: 'orderTotal', type: 'string' },
+
+
       ],
       localdata: data,
       rownumbers: true,
@@ -72,10 +76,12 @@ initGrid(data: Array<JSON>) {
       },
     },
       { text: 'id', datafield: '_id', hidden: true },
-      { text: 'Name', datafield: 'Name' },
-      { text: 'Gender', datafield: 'Gender' },
-      { text: 'Age', datafield: 'Age' },
-      { text: 'Mobile', datafield: 'Mobile' },
+      { text: 'Order Number', datafield: 'orderNumber' },
+        { text: 'Order Due Date', datafield: 'orderDueDate' },
+        { text: 'Customer Name', datafield: 'customerName' },
+        { text: 'Customer Address', datafield: 'customerAddress' },
+        { text: 'Customer Phone', datafield: 'customerPhone' },
+        { text: 'Order Total', datafield: 'orderTotal' },
       {
         text: 'Edit',
         datafield: 'Edit',
@@ -92,12 +98,14 @@ initGrid(data: Array<JSON>) {
           this.errorMsg = '';
           this.isDelete = false;
           const dataRecord = this.myGrid.getrowdata(this.editrow);
-          this.editPersonData['_id'] = dataRecord['_id'];
-          this.editPersonData['Name'] = dataRecord['Name'];
-          this.editPersonData['Gender'] = dataRecord['Gender'];
-          this.editPersonData['Age'] = dataRecord['Age'];
-          this.editPersonData['Mobile'] = dataRecord['Mobile'];
-          this.modalTitle = 'Edit Person';
+          this.editOrderData['_id'] = dataRecord['_id'];
+          this.editOrderData['orderNumber'] = dataRecord['orderNumber'];
+          this.editOrderData['orderDueDate'] = dataRecord['orderDueDate'];
+          this.editOrderData['customerName'] = dataRecord['customerName'];
+          this.editOrderData['customerAddress'] = dataRecord['customerAddress'];
+          this.editOrderData['customerPhone'] = dataRecord['customerPhone'];
+          this.editOrderData['orderTotal'] = dataRecord['orderTotal'];
+          this.modalTitle = 'Edit Order';
           this.modalRef = this.modalService.open(this.myWindow, { size: 'lg' });
         },
       },
@@ -118,10 +126,10 @@ initGrid(data: Array<JSON>) {
           this.errorMsg = '';
           this.isDelete = true;
           const dataRecord = this.myGrid.getrowdata(this.editrow);
-          this.deletePersonData['_id'] = dataRecord['_id'];
-          this.deletePersonData['Name'] = dataRecord['Name'];
+          this.deleteOrderData['_id'] = dataRecord['_id'];
+          this.deleteOrderData['customerName'] = dataRecord['customerName'];
           // show the popup window.
-          this.modalTitle = 'Delete Person';
+          this.modalTitle = 'Delete Order';
           this.modalRef = this.modalService.open(this.myWindow, { size: 'lg' });
         },
       },
@@ -138,16 +146,16 @@ initGrid(data: Array<JSON>) {
     return '100%';
   }
 
-  insertNewPerson(f?: NgForm) {
+  insertNewOrder(f?: NgForm) {
     if (f) {
       f.form.reset();
     }
     this.editrow = -1;
     this.errorMsg = '';
     this.isDelete = false;
-    this.editPersonData = {};
+    this.editOrderData = {};
     // show the popup window.
-    this.modalTitle = 'Add New User Details';
+    this.modalTitle = 'Add New Order Details';
     this.modalRef = this.modalService.open(this.myWindow, { size: 'lg' });
   }
 
@@ -156,34 +164,41 @@ initGrid(data: Array<JSON>) {
   }
 
   saveBtn(f?: NgForm) {
-    this.editPersonData = this.trimInputJSON(this.editPersonData);
-    const id = this.editPersonData['_id'];
-    const Name = this.editPersonData['Name'];
-    const Gender = this.editPersonData['Gender'];
-    const Age = this.editPersonData['Age'];
-    const Mobile = this.editPersonData['Mobile'];
+    this.editOrderData = this.trimInputJSON(this.editOrderData);
+    const id = this.editOrderData['_id'];
+    const orderNumber = this.editOrderData['orderNumber'];
+    const orderDueDate = this.editOrderData['orderDueDate'];
+    const customerName = this.editOrderData['customerName'];
+    const customerAddress = this.editOrderData['customerAddress'];
+    const customerPhone = this.editOrderData['customerPhone'];
+    const orderTotal = this.editOrderData['orderTotal'];
+    
     if (this.editrow >= 0) {
       const row = {
         '_id': id,
-        'Name': Name,
-        'Gender': Gender,
-        'Age': Age,
-        'Mobile': Mobile,
+        'orderNumber' : orderNumber,
+        'orderDueDate' : orderDueDate,
+        'customerName' : customerName,
+        'customerAddress' : customerAddress,
+        'customerPhone' : customerPhone,
+        'orderTotal' : orderTotal,
       };
       const rowID = this.myGrid.getrowid(this.editrow);
-      this.orderService.updatePerson(row).subscribe((res: any) => {
+      this.orderService.updateOrder(row).subscribe((res: any) => {
         this.myGrid.updaterow(rowID, row);
         this.closeForm(f);
       });
     } else {
       const row = {
-        'Name': Name,
-        'Gender': Gender,
-        'Age': Age,
-        'Mobile': Mobile,
+        'orderNumber' : orderNumber,
+        'orderDueDate' : orderDueDate,
+        'customerName' : customerName,
+        'customerAddress' : customerAddress,
+        'customerPhone' : customerPhone,
+        'orderTotal' : orderTotal,
       };
-      this.orderService.insertPerson(row).subscribe((res: any) => {
-        this.getPersonData();
+      this.orderService.insertOrder(row).subscribe((res: any) => {
+        this.getOrderData();
         this.myGrid.updatebounddata('cells');
         this.closeForm(f);
       });
@@ -201,15 +216,15 @@ initGrid(data: Array<JSON>) {
     this.saveBtn(f);
   }
 
-  cancelDeletePerson() {
-    this.deletePersonData = {};
+  cancelDeleteOrder() {
+    this.deleteOrderData = {};
     this.closeForm();
   }
 
-  deletePerson(personId: string) {
-    this.orderService.deletePerson(personId).subscribe((res) => {
-      this.getPersonData();
-      this.cancelDeletePerson();
+  deleteOrder(orderId: string) {
+    this.orderService.deleteOrder(orderId).subscribe((res) => {
+      this.getOrderData();
+      this.cancelDeleteOrder();
       console.log(res);
     });
   }
