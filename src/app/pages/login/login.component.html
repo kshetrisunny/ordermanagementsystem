@@ -1,3 +1,44 @@
-<p>
-  login works!
-</p>
+
+<div class="row justify-content-center" style="font-family: Arial, Helvetica, sans-serif;">
+  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:90px;">
+    <div class="card shadow p-3 mb-5 shadow bg-white rounded">
+      <h4 style="color:white; text-align: center;" >Login</h4>
+      <hr>
+          <div class="form-group">
+            <label  style="color:white" for="email">Username</label>
+            <!-- <input type="email" class="form-control" placeholder="Enter email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$" required> -->
+              <input type="text" class="form-control" name="email" value="" [(ngModel)]="email" #emailUser="ngModel" required
+                  pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" placeholder="Email">
+              <div class="md-errors-spacer" [hidden]="emailUser.valid || emailUser.untouched">
+                  <div *ngIf="emailUser?.touched">
+                      <div *ngIf="emailUser.errors?.required" class="alert alert-danger">
+                          Email is Required .
+                      </div>
+                      <div *ngIf="emailUser.errors?.pattern" class="alert alert-danger">
+                          Invalid Email !
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+          <div class="form-group">
+              <label  style="color:white" for="password">Password</label>
+              <input type="password" class="form-control" name="password" [(ngModel)]="password" #passUser="ngModel" required placeholder="Password">
+            </div>
+            <div class="row " style="display: flex; font-size:14px;margin-top:20px; ">
+              <div class="col-sm-12">
+                <input type="checkbox" class="form-control" style="height: 18px;width: auto; display: inline;"><a>Remember Me !</a>
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-dark" (click)="login()" >LogIn</button>
+            </div>
+            <div style="margin-top:20px;">
+              <p>Don't Have An Account ? <a style="color: black; font-size:14px;"><b>SIGN UP</b></a></p>
+            </div>
+    </div>
+  </div>
+</div>
+
+
+
