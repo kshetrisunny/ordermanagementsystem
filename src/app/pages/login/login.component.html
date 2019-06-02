@@ -31,7 +31,7 @@
               </div>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-dark" (click)="login()" >LogIn</button>
+              <button *ngIf="email && password" type="submit" class="btn btn-dark" (click)="login()" >LogIn</button>
             </div>
             <div style="margin-top:20px;">
               <p>Don't Have An Account ? <a style="color: black; font-size:14px;"><b>SIGN UP</b></a></p>
