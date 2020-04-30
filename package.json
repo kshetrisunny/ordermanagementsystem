@@ -22,7 +22,7 @@
     "@ng-bootstrap/ng-bootstrap": "^2.2.2",
     "bootstrap": "^4.0.0",
     "core-js": "^2.5.4",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jqwidgets-scripts": "^7.1.0",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.3.3",
